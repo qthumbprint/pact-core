@@ -74,11 +74,16 @@ To construct a baseline Tier 2 observation node, operators utilize off-the-shelf
 * **Processing Unit ($200):** A standard single-board computer (such as a Raspberry Pi 5) to run the programmatic folding, signing, and transmission pipeline.
 
 ⠀*Note: Due to localized atmospheric and ionospheric delay variances, global geodiversity of these nodes is mathematically mandatory to ensure localized noise characteristics are independent and average out to zero.*
+
 # Project Governance & Legal Shield
 To permanently protect this technology from private enclosure, corporate monopolization, or state-level classification, the Q-Thumbprint codebase is licensed strictly under the **GNU General Public License v3 (GPLv3)**.
 The copyleft provisions of the GPLv3 act as a defensive legal shield: while any commercial entity, individual, or government agency is free to run, copy, and modify the software, they are legally compelled to publish any modified versions under the exact same open, copyleft license. This ensures that any technical improvements built on top of Q-Thumbprint are automatically returned to the global public domain. The stars belong to no one; the math belongs to everyone.
-### Copyright Notice
-The original author and lead theorist of this work is Gabe Arnold. All copyrights, branding marks (Q-Thumbprint, PACT), and core operational intellectual property are legally held by Gabe Arnold (© 2026 Gabe Arnold. All rights reserved), to be assigned to the Q-Thumbprint Foundation immediately upon formal non-profit incorporation, receipt of development funding, and deployment to the official repository at https://github.com/qthumbprint.
+
+### Copyright & Trademark Notice
+The original author and lead theorist of this work is **Gabe Arnold**. The core operational mechanics, technical specifications, and systemic architectures detailed herein are protected under international copyright frameworks (© 2026 Gabe Arnold. All rights reserved). 
+
+**Q-Thumbprint™** and **PACT™ (Pulsar Agreement for Continuous Time)** are proprietary common-law trademarks held by Gabe Arnold, to be assigned in full to the Q-Thumbprint Foundation immediately upon formal non-profit incorporation and receipt of development funding.
+
 ### Governance Roadmap
 1. **The Incubation Phase:** Gabe Arnold retains master repository maintainer status and sole veto power over core protocol changes to protect early-stage network configurations from malicious vector insertions or early-stage fragmentation. This phase persists until Tier 1 reaches its target deployment of 15 reference observatories.
 2. **The Federated Phase:** Core protocol updates pass to a supermajority agreement ($11/15$) of the verified academic institutions hosting the DAN consensus keys.
