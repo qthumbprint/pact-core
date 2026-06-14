@@ -4,7 +4,7 @@ Global Navigation Satellite Systems (GNSS) like GPS represent a critical single 
 
 ## Repository Structure
 
-```text
+```
 ├── README.md                                  <- This root project architecture blueprint
 ├── LICENSE                                    <- The official GNU GPLv3 copyleft legal terms
 ├── docs/
@@ -27,7 +27,7 @@ $$
 \phi(t) = \phi_0 + f(t - t_0) + \frac{1}{2}\dot{f}(t - t_0)^2
 $$
 
-Random background noise cancels out, revealing a clear pulse profile. The software identifies the peak of this pulse. Using a standard astronomical timing package (e.g., TEMPO2), the node accounts for relativistic barycentric-to-topocentric delays to calculate the highly specific, continuous local Time of Arrival ($t_{\text{actual}}^{(i)}$).
+Random background noise cancels out, revealing a clear pulse profile. The software identifies the peak of this pulse. Using a standard astronomical timing package (e.g., TEMPO2), the node accounts for relativistic barycentric-to-topocentric delays to calculate the highly specific, continuous local Time of Arrival, denoted as `t_actual`.
 
 ### Step 2: Cryptographic Authentication
 
@@ -41,13 +41,13 @@ The node broadcasts its signed payload to the network. Any alteration to the tim
 
 ### Step 3: Pre-Consensus Filtering (Residual Threshold)
 
-To prevent network flooding and instantly eliminate grossly inaccurate data (whether from hardware failure or active spoofing attempts), the network applies a predictive threshold based on a multi-sigma envelope of the hardware precision limit. The network compares the reported time ($t_{\text{actual}}^{(i)}$) to the time predicted by the timing model ($t_{\text{expected}}$).
+To prevent network flooding and instantly eliminate grossly inaccurate data (whether from hardware failure or active spoofing attempts), the network applies a predictive threshold based on a multi-sigma envelope of the hardware precision limit. The network compares the reported time (`t_actual`) to the time predicted by the timing model (`t_expected`).
 
 $$
 R_i = \left| t_{\text{actual}}^{(i)} - t_{\text{expected}} \right| \le \delta
 $$
 
-Assuming theoretical consumer hardware with a baseline noise of $\sigma = 10\mu\text{s}$, the threshold boundary is set to a $3.5\sigma$ envelope ($\delta = 35\mu\text{s}$). This guarantees that 99.9% of valid honest node measurements pass through, while any payload yielding a residual difference $R_i > 35\mu\text{s}$ is instantly discarded.
+Assuming theoretical consumer hardware with a baseline noise of $\sigma = 10\mu\text{s}$, the threshold boundary is set to a $3.5\sigma$ envelope ($\delta = 35\mu\text{s}$). This guarantees that 99.9% of valid honest node measurements pass through, while any payload yielding a residual difference `R_i > 35μs` is instantly discarded.
 
 ### Step 4: Byzantine Consensus & Aggregation (Dynamic Trimmed Mean)
 
@@ -57,13 +57,13 @@ $$
 S = \left[ t_{\text{actual}}^{(1)}, \, t_{\text{actual}}^{(2)}, \, \dots, \, t_{\text{actual}}^{(n_{\text{pool}})} \right] \quad \text{where} \quad t^{(j)} \le t^{(j+1)}
 $$
 
-To prevent network starvation while satisfying Byzantine Fault Tolerance, the protocol dynamically calculates the maximum possible fraction of remaining compromised nodes in the active filtered pool:
+To prevent network starvation while satisfying Byzantine Fault Tolerance, the protocol dynamically calculates the maximum possible fraction of remaining compromised nodes in the active filtered pool (`f_trim`):
 
 $$
 f_{\text{trim}} = \left\lfloor \frac{n_{\text{pool}} - 1}{3} \right\rfloor
 $$
 
-The protocol automatically discards the highest $f_{\text{trim}}$ and lowest $f_{\text{trim}}$ values. The final unified timestamp ($T_{\text{consensus}}$) is calculated as the arithmetic mean of the remaining guaranteed-honest cluster:
+The protocol automatically discards the highest `f_trim` and lowest `f_trim` values. The final unified timestamp (`T_consensus`) is calculated as the arithmetic mean of the remaining guaranteed-honest cluster:
 
 $$
 T_{\text{consensus}} = \frac{1}{n_{\text{pool}} - 2f_{\text{trim}}} \sum_{k=f_{\text{trim}}+1}^{n_{\text{pool}}-f_{\text{trim}}} S[k]
@@ -77,7 +77,7 @@ This repository includes a standalone Python simulation (`pact_simulation.py`) t
 
 ### Expected Output Log:
 
-```text
+```
 --- Initiating PACT Consensus Simulation ---
 Target True Cosmic Time: 1500000.0 microseconds
 Total Network Nodes (n): 1000
@@ -109,6 +109,13 @@ The theoretical target for a baseline Tier 2 observation node utilizes off-the-s
 
 *Note: Due to localized atmospheric and ionospheric delay variances, global geodiversity of these nodes is mathematically mandatory to ensure localized noise characteristics are independent and average out to zero.*
 
+### Deployment Configuration Options
+
+The Q-Thumbprint framework supports two native deployment configurations depending on network maturity:
+
+1. **The Democratic Mesh (Default):** A highly scalable, crowd-sourced mesh of thousands of sub-$1,000 consumer installations balancing thermal drift via dense statistical averaging across the Central Limit Theorem.
+2. **The Hardened Three-Tier Backbone (Enterprise):** A high-reliability institutional configuration where philanthropic patrons fund $150-300$ enterprise-grade backbone nodes ($\sim\$100\text{k}$ entries with Rubidium standards) that are gifted to independent community stewards. This heavy spine serves as a clock-disciplining broadcast layer that supports millions of lightweight, ultra-cheap sub-$100 Tier 3 consumer edge devices for local cryptographic auditing.
+
 ---
 
 ## Limitations & Future Hardware R&D
@@ -117,14 +124,7 @@ While the software consensus architecture (PACT) is fully functional and mathema
 
 1. **The Local Oscillator (Clock Drift) Trap:** To accurately perform epoch folding over long periods, the SDR's local clock must remain perfectly stable. Standard TCXOs in consumer SDRs drift by ~1 ppm, which smears signal data by milliseconds over an hour. Achieving $10\mu\text{s}$ bounds currently requires non-GPS frequency stabilization (e.g., OCXOs or atomic standards), which challenges the sub-$1,000 hardware budget.
 2. **Signal-to-Noise Ratio (SNR) Limits:** While 3-meter dishes can detect bright, slow pulsars (like PSR B0329+54), achieving precision timing requires Millisecond Pulsars (MSPs). MSPs are incredibly faint, and detecting them with a 3-meter dish without being overwhelmed by terrestrial thermal noise will likely require advancements in consumer-grade phased array combining.
-3. **The Geographic Bootstrap Paradox:** To calculate localized $t_{\text{expected}}$, a node must know its exact geographic coordinates down to a few meters. Until an alternative global geodetic standard exists, new Tier 2 nodes will initially require standard surveying or a one-time GPS coordinate ping during installation to establish their baseline location before operating independently.
-
-### Deployment Configuration Options
-
-The Q-Thumbprint framework supports two native deployment configurations depending on network maturity:
-
-1. **The Democratic Mesh (Default):** A highly scalable, crowd-sourced mesh of thousands of sub-$1,000 consumer installations balancing thermal drift via dense statistical averaging across the Central Limit Theorem.
-2. **The Hardened Three-Tier Backbone (Enterprise):** A high-reliability institutional configuration where philanthropic patrons fund $150-300$ enterprise-grade backbone nodes ($\sim\$100\text{k}$ entries with Rubidium standards) that are gifted to independent community stewards. This heavy spine serves as a clock-disciplining broadcast layer that supports millions of lightweight, ultra-cheap sub-$100 Tier 3 consumer edge devices for local cryptographic auditing.
+3. **The Geographic Bootstrap Paradox:** To calculate localized `t_expected`, a node must know its exact geographic coordinates down to a few meters. Until an alternative global geodetic standard exists, new Tier 2 nodes will initially require standard surveying or a one-time GPS coordinate ping during installation to establish their baseline location before operating independently.
 
 ---
 
