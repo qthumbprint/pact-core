@@ -23,7 +23,7 @@ $$t_{\text{folded}} = t_{\text{raw}} \pmod P$$
 
 * **The Output:** Random background noise cancels out, revealing a clear pulse profile. The software identifies the peak of this pulse to calculate the specific, continuous local Time of Arrival ($t_{\text{actual}}^{(i)}$).
 
-###⠀Step 2: Cryptographic Authentication
+Step 2: Cryptographic Authentication
 Before the data enters the network, it must be secured against spoofing and in-transit tampering.
 
 * **The Process:** Every node utilizes asymmetric cryptography (Public/Private Keys). The node uses its Private Key to mathematically sign its calculated payload:
@@ -32,7 +32,7 @@ $$\text{Payload}_i = \text{Sign}_{\text{PrivKey}_i}\left( \text{NodeID}_i, \, t_
 
 * **The Output:** The node broadcasts its signed payload to the network. Any alteration to the timestamp in transit will invalidate the signature, allowing honest nodes to automatically discard tampered data.
 
-###⠀Step 3: Pre-Consensus Filtering (Residual Threshold)
+Step 3: Pre-Consensus Filtering (Residual Threshold)
 To prevent network flooding and instantly eliminate grossly inaccurate data (whether from hardware failure or active spoofing attempts), the network applies a strict predictive threshold based on the known hardware precision limit of 10 microseconds.
 
 * **The Process:** The network compares the reported time ($t_{\text{actual}}^{(i)}$) to the time predicted by the timing model ($t_{\text{expected}}$).
