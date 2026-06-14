@@ -114,7 +114,7 @@ The theoretical target for a baseline Tier 2 observation node utilizes off-the-s
 The Q-Thumbprint framework supports two native deployment configurations depending on network maturity:
 
 1. **The Democratic Mesh (Default):** A highly scalable, crowd-sourced mesh of thousands of sub-$1,000 consumer installations balancing thermal drift via dense statistical averaging across the Central Limit Theorem.
-2. **The Hardened Three-Tier Backbone (Enterprise):** A high-reliability institutional configuration where philanthropic patrons fund $150-300$ enterprise-grade backbone nodes ($\sim\$100\text{k}$ entries with Rubidium standards) that are gifted to independent community stewards. This heavy spine serves as a clock-disciplining broadcast layer that supports millions of lightweight, ultra-cheap sub-$100 Tier 3 consumer edge devices for local cryptographic auditing.
+2. **The Hardened Three-Tier Backbone (Enterprise):** A high-reliability institutional configuration where philanthropic patrons fund 150–300 enterprise-grade backbone nodes (~$100k per node with Rubidium standards) that are gifted to independent community stewards. This heavy spine serves as a clock-disciplining broadcast layer that supports millions of lightweight, ultra-cheap sub-$100 Tier 3 consumer edge devices for local cryptographic auditing.
 
 ---
 
