@@ -90,6 +90,6 @@ Funding the Q-Thumbprint Backbone Spine directly maps to our core constitutional
 If you are ready to use the resources of the old world to construct an immutable, decentralized cosmic framework for the next one, contact our funding coordination team to schedule a technical baseline briefing or secure a node bundle allocation:
 
 * **Official Domain:** [qthumbprint.org](https://qthumbprint.org)
-* **Sovereign Donor Coordination Inbox:** [patrons@qthumbprint.org](mailto:patrons@qthumbprint.org)
+* **Sovereign Donor Coordination Inbox:** [contact@qthumbprint.org](mailto:contact@qthumbprint.org)
 
 *The stars belong to no one. The math belongs to everyone. Help us claim our temporal birthright.*
