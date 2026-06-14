@@ -4,18 +4,18 @@ Global Navigation Satellite Systems (GNSS) like GPS represent a critical single 
 
 ## Repository Structure
 
-~~~text
+```text
 ├── README.md                                  <- This root project architecture blueprint
 ├── LICENSE                                    <- The official GNU GPLv3 copyleft legal terms
 ├── docs/
 │   ├── Q-Thumbprint_Whitepaper.pdf            <- Formal mathematical proofs and network architecture
 │   └── Q-Thumbprint Manifesto & Principles.md <- Core philosophy and governance commitments
 └── pact_simulation.py                         <- The standalone Python consensus simulation engine
-~~~
+```
 
 ## The PACT Consensus Pipeline (Software Architecture)
 
-To achieve distributed consensus on a continuous physical variable (the absolute cosmic arrival time of a pulse), we developed the Pulsar Agreement for Continuous Time (PACT) algorithm. It translates continuous, noisy measurements into an immutable, unified global clock tick through a four-step pipeline.
+To achieve distributed consensus on a continuous physical variable (the absolute cosmic arrival time of a pulse), we developed the Pulsar Agreement for Continuous Time (PACT) algorithm. Because epoch folding requires extended observation windows to build signal-to-noise ratio (SNR), PACT functions as a **global clock disciplining protocol**. It translates continuous, noisy RF measurements into highly precise, discrete consensus timestamps (anchor points) which are used to continually discipline and correct local hardware oscillators through a four-step pipeline.
 
 ### Step 1: Signal Extraction (De-dispersion & Epoch Folding)
 
@@ -51,7 +51,7 @@ Assuming theoretical consumer hardware with a baseline noise of $\sigma = 10\mu\
 
 ### Step 4: Byzantine Consensus & Aggregation (Dynamic Trimmed Mean)
 
-The network collects all cryptographically verified and threshold-filtered timestamps and sorts them chronologically:
+Due to the latency of globally asynchronous networks, the protocol utilizes a strict **Consensus Window** (e.g., 60 seconds post-observation). Once this temporal window closes, the network pool locks. It collects all cryptographically verified and threshold-filtered timestamps that arrived within the window and sorts them chronologically:
 
 $$
 S = \left[ t_{\text{actual}}^{(1)}, \, t_{\text{actual}}^{(2)}, \, \dots, \, t_{\text{actual}}^{(n_{\text{pool}})} \right] \quad \text{where} \quad t^{(j)} \le t^{(j+1)}
@@ -77,7 +77,7 @@ This repository includes a standalone Python simulation (`pact_simulation.py`) t
 
 ### Expected Output Log:
 
-~~~text
+```text
 --- Initiating PACT Consensus Simulation ---
 Target True Cosmic Time: 1500000.0 microseconds
 Total Network Nodes (n): 1000
@@ -94,7 +94,7 @@ Active Byzantine Attackers (f): 333
 Calculated Global Timestamp: 1500000.2825 microseconds
 Absolute Network Clock Error: 0.2825 microseconds
 Success: Network achieved sub-microsecond precision using consumer-grade baselines!
-~~~
+```
 
 ---
 
