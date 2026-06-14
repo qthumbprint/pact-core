@@ -4,28 +4,30 @@ Global Navigation Satellite Systems (GNSS) like GPS represent a critical single 
 
 ## Repository Structure
 
-```text
+~~~text
 ├── README.md                                  <- This root project architecture blueprint
 ├── LICENSE                                    <- The official GNU GPLv3 copyleft legal terms
 ├── docs/
 │   ├── Q-Thumbprint_Whitepaper.pdf            <- Formal mathematical proofs and network architecture
 │   └── Q-Thumbprint Manifesto & Principles.md <- Core philosophy and governance commitments
 └── pact_simulation.py                         <- The standalone Python consensus simulation engine
-```
+~~~
 
 ## The PACT Consensus Pipeline (Software Architecture)
 
 To achieve distributed consensus on a continuous physical variable (the absolute cosmic arrival time of a pulse), we developed the Pulsar Agreement for Continuous Time (PACT) algorithm. It translates continuous, noisy measurements into an immutable, unified global clock tick through a four-step pipeline.
 
-### Step 1: Signal Extraction (Epoch Folding)
+### Step 1: Signal Extraction (De-dispersion & Epoch Folding)
 
-The consumer node records a continuous stream of noisy radio frequency data. Using the known rotation rate of the target pulsar provided by the Tier 1 Distributed Almanac Network (DAN), the software overlaps and stacks millions of periodic intervals:
+The consumer node records a continuous stream of broadband radio frequency data. Because the interstellar medium slows down lower frequencies, the node first applies **coherent de-dispersion** using the pulsar's Dispersion Measure (DM) provided by the Tier 1 Distributed Almanac Network (DAN) ephemeris.
+
+Next, the software folds the corrected data. Because pulsars spin down over time, the folding relies on the Taylor series expansion of the rotational phase $\phi(t)$ rather than a static modulo:
 
 $$
-t_{\text{folded}} = t_{\text{raw}} \pmod P
+\phi(t) = \phi_0 + f(t - t_0) + \frac{1}{2}\dot{f}(t - t_0)^2
 $$
 
-Random background noise cancels out, revealing a clear pulse profile. The software identifies the peak of this pulse to calculate the specific, continuous local Time of Arrival ($t_{\text{actual}}^{(i)}$).
+Random background noise cancels out, revealing a clear pulse profile. The software identifies the peak of this pulse. Using a standard astronomical timing package (e.g., TEMPO2), the node accounts for relativistic barycentric-to-topocentric delays to calculate the highly specific, continuous local Time of Arrival ($t_{\text{actual}}^{(i)}$).
 
 ### Step 2: Cryptographic Authentication
 
@@ -45,7 +47,7 @@ $$
 R_i = \left| t_{\text{actual}}^{(i)} - t_{\text{expected}} \right| \le \delta
 $$
 
-Assuming consumer hardware with a baseline noise of $\sigma = 10\mu\text{s}$, the threshold boundary is set to a $3.5\sigma$ envelope ($\delta = 35\mu\text{s}$). This guarantees that 99.9% of valid honest node measurements pass through, while any payload yielding a residual difference $R_i > 35\mu\text{s}$ is instantly discarded.
+Assuming theoretical consumer hardware with a baseline noise of $\sigma = 10\mu\text{s}$, the threshold boundary is set to a $3.5\sigma$ envelope ($\delta = 35\mu\text{s}$). This guarantees that 99.9% of valid honest node measurements pass through, while any payload yielding a residual difference $R_i > 35\mu\text{s}$ is instantly discarded.
 
 ### Step 4: Byzantine Consensus & Aggregation (Dynamic Trimmed Mean)
 
@@ -75,7 +77,7 @@ This repository includes a standalone Python simulation (`pact_simulation.py`) t
 
 ### Expected Output Log:
 
-```text
+~~~text
 --- Initiating PACT Consensus Simulation ---
 Target True Cosmic Time: 1500000.0 microseconds
 Total Network Nodes (n): 1000
@@ -92,7 +94,7 @@ Active Byzantine Attackers (f): 333
 Calculated Global Timestamp: 1500000.2825 microseconds
 Absolute Network Clock Error: 0.2825 microseconds
 Success: Network achieved sub-microsecond precision using consumer-grade baselines!
-```
+~~~
 
 ---
 
