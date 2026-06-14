@@ -9,11 +9,11 @@ Global Navigation Satellite Systems (GNSS) like GPS represent a critical single 
 ├── LICENSE                                    <- The official GNU GPLv3 copyleft legal terms
 ├── docs/
 │   ├── Q-Thumbprint_Whitepaper.pdf            <- Formal mathematical proofs and network architecture
-│   └── Q-Thumbprint Manifesto...              <- Core philosophy and governance commitments
+│   └── Q-Thumbprint Manifesto & Principles.md <- Core philosophy and governance commitments
 └── pact_simulation.py                         <- The standalone Python consensus simulation engine
 ```
 
-## The PACT Consensus Pipeline
+## The PACT Consensus Pipeline (Software Architecture)
 
 To achieve distributed consensus on a continuous physical variable (the absolute cosmic arrival time of a pulse), we developed the Pulsar Agreement for Continuous Time (PACT) algorithm. It translates continuous, noisy measurements into an immutable, unified global clock tick through a four-step pipeline.
 
@@ -96,15 +96,28 @@ Success: Network achieved sub-microsecond precision using consumer-grade baselin
 
 ---
 
-## Hardware Assembly Blueprint (Under $1,000)
+## Theoretical Hardware Assembly Blueprint
 
-To construct a baseline Tier 2 observation node, operators utilize off-the-shelf components to balance low costs with functional signal acquisition:
+The theoretical target for a baseline Tier 2 observation node utilizes off-the-shelf components to balance low costs with functional signal acquisition (Sub-$1,000 target):
+
 * **SDR Receiver ($250):** A Software-Defined Radio receiver (e.g., HackRF One or RTL-SDR Blog V4) capable of capturing frequencies in the 400 MHz to 1.4 GHz range.
 * **Low-Noise Amplifier ($50):** An LNA tuned specifically to cosmic radio astronomy bands to boost faint pulsar emissions above local thermal noise.
-* **Reflector Antenna ($400):** A home-built 3-meter parabolic mesh satellite dish or a high-gain dual-17-element Yagi antenna array aimed directly at targeted bright pulsars (e.g., PSR B0329+54).
+* **Reflector Antenna ($400):** A home-built 3-meter parabolic mesh satellite dish or a high-gain dual-17-element Yagi antenna array aimed directly at targeted bright pulsars.
 * **Processing Unit ($200):** A standard single-board computer (such as a Raspberry Pi 5) to run the programmatic folding, signing, and transmission pipeline.
 
 *Note: Due to localized atmospheric and ionospheric delay variances, global geodiversity of these nodes is mathematically mandatory to ensure localized noise characteristics are independent and average out to zero.*
+
+---
+
+## Limitations & Future Hardware R&D
+
+While the software consensus architecture (PACT) is fully functional and mathematically sound, deploying an independent, sub-$1,000 ground node currently faces physical engineering bottlenecks that represent the next frontier of the Q-Thumbprint Initiative's R&D:
+
+1. **The Local Oscillator (Clock Drift) Trap:** To accurately perform epoch folding over long periods, the SDR's local clock must remain perfectly stable. Standard TCXOs in consumer SDRs drift by ~1 ppm, which smears signal data by milliseconds over an hour. Achieving $10\mu\text{s}$ bounds currently requires non-GPS frequency stabilization (e.g., OCXOs or atomic standards), which challenges the sub-$1,000 hardware budget.
+2. **Signal-to-Noise Ratio (SNR) Limits:** While 3-meter dishes can detect bright, slow pulsars (like PSR B0329+54), achieving precision timing requires Millisecond Pulsars (MSPs). MSPs are incredibly faint, and detecting them with a 3-meter dish without being overwhelmed by terrestrial thermal noise will likely require advancements in consumer-grade phased array combining.
+3. **The Geographic Bootstrap Paradox:** To calculate localized $t_{\text{expected}}$, a node must know its exact geographic coordinates down to a few meters. Until an alternative global geodetic standard exists, new Tier 2 nodes will initially require standard surveying or a one-time GPS coordinate ping during installation to establish their baseline location before operating independently.
+
+---
 
 ## Project Governance & Legal Shield
 
@@ -128,6 +141,6 @@ The original author and lead theorist of this work is **Gabe Arnold**. The core 
 
 ### Contact & Collaboration
 
-For academic inquiries, peer-review feedback, or to coordinate Tier 1 reference node testing, connect with the project coordination pipeline:
+For academic inquiries, peer-review hardware engineering proposals, or to coordinate Tier 1 reference node testing, connect with the project coordination pipeline:
 * **Official Domain:** qthumbprint.org
 * **Correspondence Inbox:** contact@qthumbprint.org
