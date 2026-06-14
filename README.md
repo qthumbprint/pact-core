@@ -13,6 +13,7 @@ The network resolves the traditional trade-off between astronomical measurement 
 ├── README.md            <- This root project architecture blueprint and manifesto
 ├── LICENSE              <- The official GNU GPLv3 copyleft legal terms
 └── pact_simulation.py   <- The standalone Python consensus simulation engine
+```
 
 # The PACT Consensus Pipeline
 To achieve distributed consensus on a continuous physical variable (cosmic time of arrival), the Q-Thumbprint framework utilizes the PACT Algorithm—a sequential, four-step pipeline. This ensures data integrity, cryptographic security, and mathematical alignment with established Byzantine fault tolerance parameters.
