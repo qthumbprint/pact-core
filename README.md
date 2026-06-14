@@ -119,6 +119,13 @@ While the software consensus architecture (PACT) is fully functional and mathema
 2. **Signal-to-Noise Ratio (SNR) Limits:** While 3-meter dishes can detect bright, slow pulsars (like PSR B0329+54), achieving precision timing requires Millisecond Pulsars (MSPs). MSPs are incredibly faint, and detecting them with a 3-meter dish without being overwhelmed by terrestrial thermal noise will likely require advancements in consumer-grade phased array combining.
 3. **The Geographic Bootstrap Paradox:** To calculate localized $t_{\text{expected}}$, a node must know its exact geographic coordinates down to a few meters. Until an alternative global geodetic standard exists, new Tier 2 nodes will initially require standard surveying or a one-time GPS coordinate ping during installation to establish their baseline location before operating independently.
 
+### Deployment Configuration Options
+
+The Q-Thumbprint framework supports two native deployment configurations depending on network maturity:
+
+1. **The Democratic Mesh (Default):** A highly scalable, crowd-sourced mesh of thousands of sub-$1,000 consumer installations balancing thermal drift via dense statistical averaging across the Central Limit Theorem.
+2. **The Hardened Three-Tier Backbone (Enterprise):** A high-reliability institutional configuration where philanthropic patrons fund $150-300$ enterprise-grade backbone nodes ($\sim\$100\text{k}$ entries with Rubidium standards) that are gifted to independent community stewards. This heavy spine serves as a clock-disciplining broadcast layer that supports millions of lightweight, ultra-cheap sub-$100 Tier 3 consumer edge devices for local cryptographic auditing.
+
 ---
 
 ## Project Governance & Legal Shield
