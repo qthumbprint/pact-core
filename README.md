@@ -113,5 +113,5 @@ The original author and lead theorist of this work is **Gabe Arnold**. The core 
 
 Contact & Collaboration
 For academic inquiries, peer-review feedback, or to coordinate Tier 1 reference node testing, connect with the project coordination pipeline:
-* **Official Domain:** ~[qthumbprint.org](https://qthumbprint.org/)~
+* **Official Domain:** qthumbprint.org
 * **Correspondence Inbox:** contact@qthumbprint.org
