@@ -13,6 +13,7 @@ To break this bootstrap paradox without introducing external satellite synchroni
 
 A node must sequentially advance through four operational states before it is authorized to participate in the global cryptographic timing consensus layer.
 
+```text
 +──────────────────────────────────────────────────────────+
 │                  STATE 0: COLD START                     │
 +──────────────────────────────────────────────────────────+
@@ -37,6 +38,7 @@ A node must sequentially advance through four operational states before it is au
 │  - Cryptographic key pair unlocked                       │
 │  - Broadcast signed t_actual payloads                    │
 +──────────────────────────────────────────────────────────+
+```
 
 ### State 0: Cold Start
 * **Definition:** The node has zero trusted internal time data, no current ephemeris cache, or a local oscillator drift configuration that exceeds the acceptable $3.5\sigma$ network envelope.
