@@ -63,6 +63,7 @@ def run_pact_consensus(true_cosmic_time=1500000.0, num_nodes=1000, num_byzantine
         
     # Generate Byzantine Node observations (Malicious actors attempting to warp the clock)
     for i in range(num_byzantine):
+        # Attackers report wildly inaccurate timestamps to pull the network clock off-sync
         malicious_drift = random.choice([50.0, -50.0, 500.0])
         t_poisoned = true_cosmic_time + malicious_drift
         
@@ -75,7 +76,7 @@ def run_pact_consensus(true_cosmic_time=1500000.0, num_nodes=1000, num_byzantine
     # -------------------------------------------------------------------------
     # STEP 3: Pre-Consensus Filtering (Residual Threshold)
     # -------------------------------------------------------------------------
-    # Enforces a 3.5-sigma filter boundary to clear natural Gaussian noise tails for seed 42
+    # Enforces a 3.5-sigma filter boundary to clear natural Gaussian noise tails
     t_expected = true_cosmic_time 
     threshold_bound = 3.5 * hardware_sigma  # delta = 35 microseconds
     
@@ -101,15 +102,23 @@ def run_pact_consensus(true_cosmic_time=1500000.0, num_nodes=1000, num_byzantine
     # STEP 4: Byzantine Consensus & Aggregation (Trimmed Mean)
     # -------------------------------------------------------------------------
     filtered_pool.sort()
-    f = num_byzantine
     
-    if len(filtered_pool) > (2 * f):
-        trimmed_pool = filtered_pool[f:-f]
-        print(f"[Step 4] Trimmed Mean applied. Discarded upper {f} and lower {f} bounds.")
+    # DYNAMIC SECURITY SCALE: Calculate the maximum possible fraction of remaining 
+    # compromised nodes in the active filtered pool (f_pool = floor((len-1)/3)) 
+    # to maintain Approximate Byzantine Agreement without starving honest data.
+    pool_size = len(filtered_pool)
+    if pool_size >= 4:
+        f_trim = math.floor((pool_size - 1) / 3)
+    else:
+        raise ConsensusFailureError("Consensus Failed: Critical data depletion in remaining network pool.")
+        
+    if pool_size > (2 * f_trim):
+        trimmed_pool = filtered_pool[f_trim:-f_trim] if f_trim > 0 else filtered_pool
+        print(f"[Step 4] Trimmed Mean applied. Dynamically discarded upper {f_trim} and lower {f_trim} bounds.")
     else:
         raise ConsensusFailureError(
-            f"Consensus Failed: Remaining pool size ({len(filtered_pool)}) is insufficient "
-            f"to trim bounds safely for {f} tolerated Byzantine attackers (Requires > {2*f} nodes)."
+            f"Consensus Failed: Remaining pool size ({pool_size}) is insufficient "
+            f"to trim bounds safely (Requires > {2*f_trim} nodes)."
         )
         
     print(f"        Guaranteed honest nodes remaining for statistical blending: {len(trimmed_pool)}")
