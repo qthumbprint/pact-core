@@ -16,22 +16,22 @@ A node must sequentially advance through four operational states before it is au
 +──────────────────────────────────────────────────────────+
 │                  STATE 0: COLD START                     │
 +──────────────────────────────────────────────────────────+
-│
-▼
+                             │
+                             ▼
 +──────────────────────────────────────────────────────────+
 │             STATE 1: COARSE DISCIPLINING                 │
 │  - Target: High-Flux, Slow Pulsars (e.g., PSR B0329+54)  │
 │  - Phase Envelope: Milliseconds                          │
 +──────────────────────────────────────────────────────────+
-│
-▼
+                             │
+                             ▼
 +──────────────────────────────────────────────────────────+
 │               STATE 2: FINE TRACKING LOCK                │
 │  - Target: Ultra-Stable Millisecond Pulsars (MSPs)       │
 │  - Phase Envelope: < 10 Microseconds                     │
 +──────────────────────────────────────────────────────────+
-│
-▼
+                             │
+                             ▼
 +──────────────────────────────────────────────────────────+
 │             STATE 3: PACT NETWORK CONSENSUS              │
 │  - Cryptographic key pair unlocked                       │
