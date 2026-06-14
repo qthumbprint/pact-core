@@ -8,11 +8,14 @@ The network resolves the traditional trade-off between astronomical measurement 
 
 ⠀Through the integration of the Central Limit Theorem and Approximate Byzantine Agreement via a sorted Trimmed Mean, the network successfully eliminates malicious actors trying to poison the clock. Even under a maximum-scale Byzantine attack where up to one-third ($1/3$) of all validation nodes are actively compromised, PACT refines noisy consumer inputs ($\sigma = 10\mu\text{s}$) into a secure, sub-microsecond ($\sim 0.547\mu\text{s}$) global timestamp.
 
-# Repository Structure
+## Repository Structure
 ```text
-├── README.md            <- This root project architecture blueprint and manifesto
-├── LICENSE              <- The official GNU GPLv3 copyleft legal terms
-└── pact_simulation.py   <- The standalone Python consensus simulation engine
+├── README.md                                  <- This root project architecture blueprint
+├── LICENSE                                    <- The official GNU GPLv3 copyleft legal terms
+├── docs/
+│   ├── Q-Thumbprint_Whitepaper.pdf            <- Formal mathematical proofs and network architecture
+│   └── Q-Thumbprint Manifesto...              <- Core philosophy and governance commitments
+└── pact_simulation.py                         <- The standalone Python consensus simulation engine
 ```
 
 # The PACT Consensus Pipeline
