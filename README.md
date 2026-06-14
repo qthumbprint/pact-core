@@ -16,23 +16,42 @@ The network resolves the traditional trade-off between astronomical measurement 
 To achieve distributed consensus on a continuous physical variable (cosmic time of arrival), the Q-Thumbprint framework utilizes the PACT Algorithm—a sequential, four-step pipeline. This ensures data integrity, cryptographic security, and mathematical alignment with established Byzantine fault tolerance parameters.
 ### Step 1: Signal Extraction (Epoch Folding)
 The physical layer challenge involves extracting a sub-microsecond pulse from the cosmic noise floor.
-* **The Process:** The consumer node records a continuous stream of noisy radio frequency data. Using the known rotation rate of the target pulsar (the ephemeris) provided by the DAN, the software overlaps and stacks millions of periodic intervals:   $$t_{\text{folded}} = t_{\text{raw}} \pmod P$$
+
+* **The Process:** The consumer node records a continuous stream of noisy radio frequency data. Using the known rotation rate of the target pulsar (the ephemeris) provided by the DAN, the software overlaps and stacks millions of periodic intervals:
+
+$$t_{\text{folded}} = t_{\text{raw}} \pmod P$$
+
 * **The Output:** Random background noise cancels out, revealing a clear pulse profile. The software identifies the peak of this pulse to calculate the specific, continuous local Time of Arrival ($t_{\text{actual}}^{(i)}$).
 
-⠀Step 2: Cryptographic Authentication
+###⠀Step 2: Cryptographic Authentication
 Before the data enters the network, it must be secured against spoofing and in-transit tampering.
-* **The Process:** Every node utilizes asymmetric cryptography (Public/Private Keys). The node uses its Private Key to mathematically sign its calculated payload:   $$\text{Payload}_i = \text{Sign}_{\text{PrivKey}_i}\left( \text{NodeID}_i, \, t_{\text{actual}}^{(i)}, \, \text{Epoch} \right)$$
+
+* **The Process:** Every node utilizes asymmetric cryptography (Public/Private Keys). The node uses its Private Key to mathematically sign its calculated payload:
+
+$$\text{Payload}_i = \text{Sign}_{\text{PrivKey}_i}\left( \text{NodeID}_i, \, t_{\text{actual}}^{(i)}, \, \text{Epoch} \right)$$
+
 * **The Output:** The node broadcasts its signed payload to the network. Any alteration to the timestamp in transit will invalidate the signature, allowing honest nodes to automatically discard tampered data.
 
-⠀Step 3: Pre-Consensus Filtering (Residual Threshold)
+###⠀Step 3: Pre-Consensus Filtering (Residual Threshold)
 To prevent network flooding and instantly eliminate grossly inaccurate data (whether from hardware failure or active spoofing attempts), the network applies a strict predictive threshold based on the known hardware precision limit of 10 microseconds.
-* **The Process:** The network compares the reported time ($t_{\text{actual}}^{(i)}$) to the time predicted by the timing model ($t_{\text{expected}}$).
-* **The Filter Equation:**   $$R_i = \left| t_{\text{actual}}^{(i)} - t_{\text{expected}} \right| \le \delta$$ Where the threshold boundary $\delta = 10\mu\text{s}$. Any payload yielding a residual difference $R_i > 10\mu\text{s}$ is instantly discarded before entering the consensus aggregation stage.
 
-⠀Step 4: Byzantine Consensus & Aggregation (Trimmed Mean)
+* **The Process:** The network compares the reported time ($t_{\text{actual}}^{(i)}$) to the time predicted by the timing model ($t_{\text{expected}}$).
+* **The Filter Equation:**
+
+$$R_i = \left| t_{\text{actual}}^{(i)} - t_{\text{expected}} \right| \le \delta$$
+
+Where the threshold boundary $\delta = 10\mu\text{s}$. Any payload yielding a residual difference $R_i > 10\mu\text{s}$ is instantly discarded before entering the consensus aggregation stage.
+
+###⠀Step 4: Byzantine Consensus & Aggregation (Trimmed Mean)
 Standard discrete Byzantine Fault Tolerance (e.g., PBFT) cannot process the natural continuous variance of honest analog measurements. PACT utilizes Approximate Byzantine Agreement via a sorted Trimmed Mean.
-* **The Process:** The network collects all cryptographically verified and threshold-filtered timestamps and sorts them chronologically:   $$S = \left[ t_{\text{actual}}^{(1)}, \, t_{\text{actual}}^{(2)}, \, \dots, \, t_{\text{actual}}^{(n_{\text{pool}})} \right] \quad \text{where} \quad t^{(j)} \le t^{(j+1)}$$
-* **The Aggregation Equation:** To satisfy the Byzantine tolerance of $f$ maximum faulty nodes (where $n = 1000$ and $f = 333$), the protocol automatically discards the highest $f$ and lowest $f$ values. The final unified timestamp ($T_{\text{consensus}}$) is calculated as the arithmetic mean of the remaining honest cluster:   $$T_{\text{consensus}} = \frac{1}{n_{\text{pool}} - 2f} \sum_{k=f+1}^{n_{\text{pool}}-f} S[k]$$
+
+* **The Process:** The network collects all cryptographically verified and threshold-filtered timestamps and sorts them chronologically:
+
+$$S = \left[ t_{\text{actual}}^{(1)}, \, t_{\text{actual}}^{(2)}, \, \dots, \, t_{\text{actual}}^{(n_{\text{pool}})} \right] \quad \text{where} \quad t^{(j)} \le t^{(j+1)}$$
+
+* **The Aggregation Equation:** To satisfy the Byzantine tolerance of $f$ maximum faulty nodes (where $n = 1000$ and $f = 333$), the protocol automatically discards the highest $f$ and lowest $f$ values. The final unified timestamp ($T_{\text{consensus}}$) is calculated as the arithmetic mean of the remaining honest cluster:
+
+$$T_{\text{consensus}} = \frac{1}{n_{\text{pool}} - 2f} \sum_{k=f+1}^{n_{\text{pool}}-f} S[k]$$
 
 ⠀Running the Verification Simulator
 To validate the algorithmic logic of the PACT consensus pipeline and observe its resilience against active clock-poisoning attacks, you can execute the reference simulator instantly. The engine models a 1,000-node validation network under an active 33.3% Byzantine attack vector.
