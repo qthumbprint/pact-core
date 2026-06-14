@@ -1,12 +1,15 @@
 # Q-Thumbprint: Pulsar Agreement for Continuous Time (PACT)
 Global Navigation Satellite Systems (GNSS) like GPS represent a critical single point of failure for modern digital civilization. To address this crisis of temporal dependency, the Q-Thumbprint Initiative introduces a trustless, permissionless, and politically neutral distributed timing architecture anchored to the natural, incorruptible radio emissions of galactic millisecond pulsars (MSPs).
+
 # Repository Structure
+```text
 ├── README.md                                  <- This root project architecture blueprint
 ├── LICENSE                                    <- The official GNU GPLv3 copyleft legal terms
 ├── docs/
 │   ├── Q-Thumbprint_Whitepaper.pdf            <- Formal mathematical proofs and network architecture
 │   └── Q-Thumbprint Manifesto...              <- Core philosophy and governance commitments
 └── pact_simulation.py                         <- The standalone Python consensus simulation engine
+```
 
 # The PACT Consensus Pipeline
 To achieve distributed consensus on a continuous physical variable (the absolute cosmic arrival time of a pulse), we developed the Pulsar Agreement for Continuous Time (PACT) algorithm. It translates continuous, noisy measurements into an immutable, unified global clock tick through a four-step pipeline.
