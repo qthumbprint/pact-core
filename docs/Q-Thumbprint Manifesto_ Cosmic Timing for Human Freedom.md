@@ -162,7 +162,7 @@ The cosmos itself provides humanity with the most precise, democratic, and incor
 
 *"The future of technology should be built on foundations that serve humanity."*
 
-* **Open Source Commitment:** All code available under MIT/Apache licenses permanently
+* **Open Source Commitment:** All code available under GNU GPLv3 license permanently
 
 * **Technical Documentation:** Complete specifications for independent implementation
 
